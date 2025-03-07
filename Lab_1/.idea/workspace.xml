@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="aaf75814-9a2d-4d08-8939-3901bf2a531a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+    <list default="true" id="628688d1-7139-4408-bf66-ff82276913f4" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/Lab_1.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,9 +37,9 @@
   }
 }]]></component>
   <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 4
+  "associatedIndex": 7
 }]]></component>
-  <component name="ProjectId" id="2tzVyBeRAVC3t2RURTgWlTXTFTl" />
+  <component name="ProjectId" id="2tzWYHRWWOVhaKvAjR1Goj0O6Is" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -64,12 +65,12 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="aaf75814-9a2d-4d08-8939-3901bf2a531a" name="Changes" comment="" />
-      <created>1741355142422</created>
+      <changelist id="628688d1-7139-4408-bf66-ff82276913f4" name="Changes" comment="" />
+      <created>1741355428468</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1741355142422</updated>
-      <workItem from="1741355143252" duration="60000" />
+      <updated>1741355428468</updated>
+      <workItem from="1741355429551" duration="46000" />
     </task>
     <servers />
   </component>
