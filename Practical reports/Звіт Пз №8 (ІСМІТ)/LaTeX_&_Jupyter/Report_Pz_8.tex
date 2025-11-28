@@ -1,0 +1,734 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Keep aspect ratio if custom image width or height is specified
+    \setkeys{Gin}{keepaspectratio}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{soul}      % strikethrough (\st) support for pandoc >= 3.0.0
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \makeatletter
+    \newsavebox\pandoc@box
+    \newcommand*\pandocbounded[1]{%
+      \sbox\pandoc@box{#1}%
+      % scaling factors for width and height
+      \Gscale@div\@tempa\textheight{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+      \Gscale@div\@tempb\linewidth{\wd\pandoc@box}%
+      % select the smaller of both
+      \ifdim\@tempb\p@<\@tempa\p@
+        \let\@tempa\@tempb
+      \fi
+      % scaling accordingly (\@tempa < 1)
+      \ifdim\@tempa\p@<\p@
+        \scalebox{\@tempa}{\usebox\pandoc@box}%
+      % scaling not needed, use as it is
+      \else
+        \usebox{\pandoc@box}%
+      \fi
+    }
+    \makeatother
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{Report\_Pz\_8}
+    
+    
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \section{Практична робота
+№8}\label{ux43fux440ux430ux43aux442ux438ux447ux43dux430-ux440ux43eux431ux43eux442ux430-8}
+
+\textbf{Виконав} студент групи КН-24-1 Озівський В.В.
+
+\textbf{Тема:} Основи вибіркового методу.
+
+\textbf{Мета:} набути практичних навичок у розв'язанні типових задач з
+основ вибіркового методу, точкового та інтервального оцінювання числових
+характеристик випадкової величини
+
+\section{Хід
+роботи}\label{ux445ux456ux434-ux440ux43eux431ux43eux442ux438}
+
+    \textbf{Завдання 18.}
+
+\textbf{Виконання індивідуального завдання згідно з прикладами 4.1-4.20}
+
+\textbf{Вихідна вибірка:} \(X = [3, 4, 3, 5, 10]\), об'єм вибірки
+\(n=5\).
+
+    \paragraph{\texorpdfstring{\textbf{1. Побудова варіаційного ряду (за
+аналогією з Прикладом
+4.3)}}{1. Побудова варіаційного ряду (за аналогією з Прикладом 4.3)}}\label{ux43fux43eux431ux443ux434ux43eux432ux430-ux432ux430ux440ux456ux430ux446ux456ux439ux43dux43eux433ux43e-ux440ux44fux434ux443-ux437ux430-ux430ux43dux430ux43bux43eux433ux456ux454ux44e-ux437-ux43fux440ux438ux43aux43bux430ux434ux43eux43c-4.3}
+
+Відсортована за зростанням вибірка (варіаційний ряд):
+\[ [3, 3, 4, 5, 10] \] Унікальні варіанти (\(\alpha\)):
+\[ [3, 4, 5, 10] \]
+
+    \paragraph{\texorpdfstring{\textbf{2. Побудова емпіричного закону
+розподілу (за аналогією з Прикладом
+4.4)}}{2. Побудова емпіричного закону розподілу (за аналогією з Прикладом 4.4)}}\label{ux43fux43eux431ux443ux434ux43eux432ux430-ux435ux43cux43fux456ux440ux438ux447ux43dux43eux433ux43e-ux437ux430ux43aux43eux43dux443-ux440ux43eux437ux43fux43eux434ux456ux43bux443-ux437ux430-ux430ux43dux430ux43bux43eux433ux456ux454ux44e-ux437-ux43fux440ux438ux43aux43bux430ux434ux43eux43c-4.4}
+
+Складаємо таблицю відносних частот (\(\omega_i = m_i/n\)):
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Варіанта (\(x_i\)) & Відносна частота (\(\omega_i\)) \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+3 & 2/5 = 0.4 \\
+4 & 1/5 = 0.2 \\
+5 & 1/5 = 0.2 \\
+10 & 1/5 = 0.2 \\
+\end{longtable}
+
+    \paragraph{\texorpdfstring{\textbf{3. Побудова гістограми (за аналогією
+з Прикладом
+4.5)}}{3. Побудова гістограми (за аналогією з Прикладом 4.5)}}\label{ux43fux43eux431ux443ux434ux43eux432ux430-ux433ux456ux441ux442ux43eux433ux440ux430ux43cux438-ux437ux430-ux430ux43dux430ux43bux43eux433ux456ux454ux44e-ux437-ux43fux440ux438ux43aux43bux430ux434ux43eux43c-4.5}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Кількість інтервалів (формула Стерджесса):}
+  \(k = 1 + 1.332 \cdot \ln(5) \approx 3.143 \approx 3\).
+\item
+  \textbf{Ширина інтервалу:}
+  \(h = (X_{max} - X_{min}) / k = (10 - 3) / 3 \approx 2.33\).
+\item
+  \textbf{Інтервальна таблиця частот:}
+\end{itemize}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Інтервал & Частота (\(\omega_i\)) \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+{[}3; 5.33) & 4/5 = 0.8 \\
+{[}5.33; 7.66) & 0/5 = 0 \\
+{[}7.66; 10{]} & 1/5 = 0.2 \\
+\end{longtable}
+
+    \paragraph{\texorpdfstring{\textbf{4. Побудова емпіричної функції
+розподілу (за аналогією з Прикладом
+4.6)}}{4. Побудова емпіричної функції розподілу (за аналогією з Прикладом 4.6)}}\label{ux43fux43eux431ux443ux434ux43eux432ux430-ux435ux43cux43fux456ux440ux438ux447ux43dux43eux457-ux444ux443ux43dux43aux446ux456ux457-ux440ux43eux437ux43fux43eux434ux456ux43bux443-ux437ux430-ux430ux43dux430ux43bux43eux433ux456ux454ux44e-ux437-ux43fux440ux438ux43aux43bux430ux434ux43eux43c-4.6}
+
+\[ F_n^*(x) = \begin{cases} 0, & x \le 3 \\ 0.4, & 3 < x \le 4 \\ 0.6, & 4 < x \le 5 \\ 0.8, & 5 < x \le 10 \\ 1, & x > 10 \end{cases} \]
+
+    \paragraph{\texorpdfstring{\textbf{5. Розрахунок мір центральної
+тенденції (Приклади
+4.7-4.9)}}{5. Розрахунок мір центральної тенденції (Приклади 4.7-4.9)}}\label{ux440ux43eux437ux440ux430ux445ux443ux43dux43eux43a-ux43cux456ux440-ux446ux435ux43dux442ux440ux430ux43bux44cux43dux43eux457-ux442ux435ux43dux434ux435ux43dux446ux456ux457-ux43fux440ux438ux43aux43bux430ux434ux438-4.7-4.9}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Медіана (Me):} \(n=5\) (непарне),
+  \(Me = \alpha_{(5+1)/2} = \alpha_3 = 4\).
+\item
+  \textbf{Середнє арифметичне (\(\bar{x}\)):}
+  \(\bar{x} = \frac{3+4+3+5+10}{5} = 5\).
+\item
+  \textbf{Мода (Mo):} Найчастіше значення --- 3. \(Mo = 3\).
+\end{itemize}
+
+    \paragraph{\texorpdfstring{\textbf{6. Розрахунок мір розсіювання
+(Приклади
+4.10-4.13)}}{6. Розрахунок мір розсіювання (Приклади 4.10-4.13)}}\label{ux440ux43eux437ux440ux430ux445ux443ux43dux43eux43a-ux43cux456ux440-ux440ux43eux437ux441ux456ux44eux432ux430ux43dux43dux44f-ux43fux440ux438ux43aux43bux430ux434ux438-4.10-4.13}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Розмах (R):} \(R = 10 - 3 = 7\).
+\item
+  \textbf{Виправлена вибіркова дисперсія (\(s^2\)):}
+  \(s^2 = \frac{1}{4} [ (3-5)^2 + (4-5)^2 + (3-5)^2 + (5-5)^2 + (10-5)^2 ] = \frac{34}{4} = 8.5\).
+\item
+  \textbf{Виправлене СКВ (\(s\)):} \(s = \sqrt{8.5} \approx 2.915\).
+\item
+  \textbf{Середня абсолютна похибка (MAE):}
+  \(MAE = \frac{1}{5} [|3-5| + |4-5| + |3-5| + |5-5| + |10-5|] = \frac{1}{5}[2+1+2+0+5] = \frac{10}{5} = 2\).
+\end{itemize}
+
+    \paragraph{\texorpdfstring{\textbf{7. Розрахунок мір форми розподілу
+(Приклади
+4.14-4.17)}}{7. Розрахунок мір форми розподілу (Приклади 4.14-4.17)}}\label{ux440ux43eux437ux440ux430ux445ux443ux43dux43eux43a-ux43cux456ux440-ux444ux43eux440ux43cux438-ux440ux43eux437ux43fux43eux434ux456ux43bux443-ux43fux440ux438ux43aux43bux430ux434ux438-4.14-4.17}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Вибіркова асиметрія (\(\tilde{A}_s\)):}
+  \(\tilde{A}_s = \frac{5}{(4)(3)(2.915)^3} \sum (x_i - 5)^3 = \frac{5}{12 \cdot 24.76} \cdot 108 \approx 1.817\).
+\item
+  \textbf{Стандартизована асиметрія (\(z_1\)):}
+  \(z_1 = \frac{1.817}{\sqrt{6/5}} \approx 1.659\).
+\item
+  \textbf{Вибірковий ексцес (\(\tilde{E}_k\)):}
+  \(\tilde{E}_k = \frac{5(6)}{(4)(3)(2)(8.5)^2} \sum (x_i - 5)^4 - \frac{3(4)^2}{(3)(2)} = \frac{30}{1734} \cdot 658 - 8 \approx 11.419 - 8 = 3.419\).
+\item
+  \textbf{Стандартизований ексцес (\(z_2\)):}
+  \(z_2 = \frac{3.419}{\sqrt{24/5}} \approx 1.561\).
+\end{itemize}
+
+    \paragraph{\texorpdfstring{\textbf{8. Розрахунок інтервальних оцінок
+(Приклади
+4.19-4.20)}}{8. Розрахунок інтервальних оцінок (Приклади 4.19-4.20)}}\label{ux440ux43eux437ux440ux430ux445ux443ux43dux43eux43a-ux456ux43dux442ux435ux440ux432ux430ux43bux44cux43dux438ux445-ux43eux446ux456ux43dux43eux43a-ux43fux440ux438ux43aux43bux430ux434ux438-4.19-4.20}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Інтервальна оцінка для середнього (\(a\)) з надійністю
+  \(\gamma=0.95\):} Для \(k=4\), \(t_{табл} \approx 2.776\).
+  \[ 5 \pm \frac{2.915}{\sqrt{5}} \cdot 2.776 \implies 5 \pm 3.619 \]
+  \textbf{Довірчий інтервал: (1.381, 8.619)}.
+\item
+  \textbf{Інтервальна оцінка для дисперсії (\(\sigma^2\)) з надійністю
+  \(\gamma=0.95\):} Для \(k=4\), \(\chi^2_{0.975,4} \approx 11.143\) та
+  \(\chi^2_{0.025,4} \approx 0.484\).
+  \[ \frac{4 \cdot 8.5}{11.143} < \sigma^2 < \frac{4 \cdot 8.5}{0.484} \implies 3.051 < \sigma^2 < 70.248 \]
+  \textbf{Довірчий інтервал для \(\sigma\): (1.747, 8.381)}.
+\end{itemize}
+
+    \subsubsection{\texorpdfstring{\textbf{9. П'ятиквантильний графік
+(``Ящик з
+вусами'')}}{9. П'ятиквантильний графік (``Ящик з вусами'')}}\label{ux43fux44fux442ux438ux43aux432ux430ux43dux442ux438ux43bux44cux43dux438ux439-ux433ux440ux430ux444ux456ux43a-ux44fux449ux438ux43a-ux437-ux432ux443ux441ux430ux43cux438}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Медіана (Q2):} 4.
+\item
+  \textbf{Перший квартиль (Q1):} 3.
+\item
+  \textbf{Третій квартиль (Q3):} 7.5.
+\item
+  \textbf{Міжквартильний розмах (IQR):} \(7.5 - 3 = 4.5\).
+\item
+  \textbf{Межі для викидів:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Нижня: \(Q1 - 1.5 \cdot IQR = 3 - 6.75 = -3.75\).
+  \item
+    Верхня: \(Q3 + 1.5 \cdot IQR = 7.5 + 6.75 = 14.25\).
+  \end{itemize}
+\item
+  \textbf{Висновок:} Всі значення вибірки знаходяться в межах
+  \texttt{{[}-3.75,\ 14.25{]}}, тому викидів немає. ``Вуса'' графіка
+  будуть відповідати мінімальному (3) та максимальному (10) значенням.
+\end{itemize}
+
+    \subsubsection{Контрольні
+питання}\label{ux43aux43eux43dux442ux440ux43eux43bux44cux43dux456-ux43fux438ux442ux430ux43dux43dux44f}
+
+\paragraph{1. Що таке вибірковий метод і як він використовується в
+статистиці?}\label{ux449ux43e-ux442ux430ux43aux435-ux432ux438ux431ux456ux440ux43aux43eux432ux438ux439-ux43cux435ux442ux43eux434-ux456-ux44fux43a-ux432ux456ux43d-ux432ux438ux43aux43eux440ux438ux441ux442ux43eux432ux443ux454ux442ux44cux441ux44f-ux432-ux441ux442ux430ux442ux438ux441ux442ux438ux446ux456}
+
+Це метод дослідження, при якому висновки про всю сукупність (генеральну
+сукупність) робляться на основі аналізу її невеликої частини (вибірки).
+Він використовується для економії часу та ресурсів, коли дослідити всю
+сукупність неможливо або недоцільно.
+
+\paragraph{2. Які є основні точкові статистичні оцінки, і як вони
+обчислюються?}\label{ux44fux43aux456-ux454-ux43eux441ux43dux43eux432ux43dux456-ux442ux43eux447ux43aux43eux432ux456-ux441ux442ux430ux442ux438ux441ux442ux438ux447ux43dux456-ux43eux446ux456ux43dux43aux438-ux456-ux44fux43a-ux432ux43eux43dux438-ux43eux431ux447ux438ux441ux43bux44eux44eux442ux44cux441ux44f}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Вибіркове середнє (\(\bar{x}\)):} Сума всіх значень, поділена
+  на їх кількість. Оцінює середнє генеральної сукупності.
+\item
+  \textbf{Вибіркова дисперсія (\(s^2\)):} Середній квадрат відхилень
+  значень від вибіркового середнього. Оцінює розкид даних.
+\item
+  \textbf{Вибіркова частка (\(\omega\)):} Відношення кількості елементів
+  з певною ознакою до загального обсягу вибірки.
+\end{itemize}
+
+\paragraph{3. Які фактори впливають на точність статистичних
+оцінок?}\label{ux44fux43aux456-ux444ux430ux43aux442ux43eux440ux438-ux432ux43fux43bux438ux432ux430ux44eux442ux44c-ux43dux430-ux442ux43eux447ux43dux456ux441ux442ux44c-ux441ux442ux430ux442ux438ux441ux442ux438ux447ux43dux438ux445-ux43eux446ux456ux43dux43eux43a}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Обсяг вибірки:} Чим більша вибірка, тим вища точність.
+\item
+  \textbf{Варіативність (мінливість) даних:} Чим більший розкид даних у
+  генеральній сукупності, тим менша точність.
+\item
+  \textbf{Метод формування вибірки:} Репрезентативна (випадкова) вибірка
+  дає більш точні результати, ніж зміщена.
+\end{itemize}
+
+\paragraph{4. Як визначається вибіркове середнє і вибіркова
+дисперсія?}\label{ux44fux43a-ux432ux438ux437ux43dux430ux447ux430ux454ux442ux44cux441ux44f-ux432ux438ux431ux456ux440ux43aux43eux432ux435-ux441ux435ux440ux435ux434ux43dux454-ux456-ux432ux438ux431ux456ux440ux43aux43eux432ux430-ux434ux438ux441ux43fux435ux440ux441ux456ux44f}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Вибіркове середнє (\(\bar{x}\)):}
+  \[ \bar{x} = \frac{1}{n} \sum_{i=1}^{n} x_i \]
+\item
+  \textbf{Виправлена вибіркова дисперсія (\(s^2\)):}
+  \[ s^2 = \frac{1}{n-1} \sum_{i=1}^{n} (x_i - \bar{x})^2 \]
+\end{itemize}
+
+\paragraph{5. Що таке точні вибіркові розподілення і як вони допомагають
+у роботі з вибірковими
+оцінками?}\label{ux449ux43e-ux442ux430ux43aux435-ux442ux43eux447ux43dux456-ux432ux438ux431ux456ux440ux43aux43eux432ux456-ux440ux43eux437ux43fux43eux434ux456ux43bux435ux43dux43dux44f-ux456-ux44fux43a-ux432ux43eux43dux438-ux434ux43eux43fux43eux43cux430ux433ux430ux44eux442ux44c-ux443-ux440ux43eux431ux43eux442ux456-ux437-ux432ux438ux431ux456ux440ux43aux43eux432ux438ux43cux438-ux43eux446ux456ux43dux43aux430ux43cux438}
+
+Це теоретичні розподіли ймовірностей для статистик, розрахованих за
+вибірками (наприклад, розподіл Стьюдента, \(\chi^2\), Фішера). Вони
+дозволяють будувати довірчі інтервали та перевіряти статистичні
+гіпотези, не знаючи точних параметрів генеральної сукупності.
+
+\paragraph{6. Які властивості мають інтервальні статистичні
+оцінки?}\label{ux44fux43aux456-ux432ux43bux430ux441ux442ux438ux432ux43eux441ux442ux456-ux43cux430ux44eux442ux44c-ux456ux43dux442ux435ux440ux432ux430ux43bux44cux43dux456-ux441ux442ux430ux442ux438ux441ux442ux438ux447ux43dux456-ux43eux446ux456ux43dux43aux438}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Надійність (\(\gamma\)):} Ймовірність того, що інтервал накриє
+  істинне значення параметра. Зазвичай приймається 95\% або 99\%.
+\item
+  \textbf{Точність:} Ширина довірчого інтервалу. Чим вужчий інтервал,
+  тим точніша оцінка. Інтервальна оцінка, на відміну від точкової,
+  враховує похибку вимірювання.
+\end{itemize}
+
+\paragraph{7. Як будується довірчий інтервал для параметра генеральної
+сукупності?}\label{ux44fux43a-ux431ux443ux434ux443ux454ux442ux44cux441ux44f-ux434ux43eux432ux456ux440ux447ux438ux439-ux456ux43dux442ux435ux440ux432ux430ux43b-ux434ux43bux44f-ux43fux430ux440ux430ux43cux435ux442ux440ux430-ux433ux435ux43dux435ux440ux430ux43bux44cux43dux43eux457-ux441ux443ux43aux443ux43fux43dux43eux441ux442ux456}
+
+Він будується навколо точкової оцінки параметра. Межі інтервалу
+визначаються за формулою:
+\[ \text{Точкова оцінка} \pm (\text{Квантиль розподілу} \times \text{Стандартна похибка оцінки}) \]
+Квантиль залежить від обраної надійності та відповідного розподілу
+(Стьюдента, нормального тощо).
+
+\paragraph{8. Як визначається довірчий інтервал для середнього значення
+генеральної
+сукупності?}\label{ux44fux43a-ux432ux438ux437ux43dux430ux447ux430ux454ux442ux44cux441ux44f-ux434ux43eux432ux456ux440ux447ux438ux439-ux456ux43dux442ux435ux440ux432ux430ux43b-ux434ux43bux44f-ux441ux435ux440ux435ux434ux43dux44cux43eux433ux43e-ux437ux43dux430ux447ux435ux43dux43dux44f-ux433ux435ux43dux435ux440ux430ux43bux44cux43dux43eux457-ux441ux443ux43aux443ux43fux43dux43eux441ux442ux456}
+
+Якщо дисперсія генеральної сукупності невідома (найчастіший випадок),
+інтервал визначається за формулою:
+\[ \bar{x} - t \cdot \frac{s}{\sqrt{n}} < a < \bar{x} + t \cdot \frac{s}{\sqrt{n}} \]
+де \(\bar{x}\) --- вибіркове середнє, \(s\) --- вибіркове СКВ, \(n\) ---
+обсяг вибірки, \(t\) --- квантиль розподілу Стьюдента.
+
+\paragraph{9. Як використовувати інтервальні статистичні оцінки для
+прийняття
+рішень?}\label{ux44fux43a-ux432ux438ux43aux43eux440ux438ux441ux442ux43eux432ux443ux432ux430ux442ux438-ux456ux43dux442ux435ux440ux432ux430ux43bux44cux43dux456-ux441ux442ux430ux442ux438ux441ux442ux438ux447ux43dux456-ux43eux446ux456ux43dux43aux438-ux434ux43bux44f-ux43fux440ux438ux439ux43dux44fux442ux442ux44f-ux440ux456ux448ux435ux43dux44c}
+
+Інтервальні оцінки дозволяють перевірити, чи потрапляє певне гіпотетичне
+значення (наприклад, норматив, плановий показник) у довірчий інтервал.
+Якщо значення не потрапляє в інтервал, гіпотезу про його істинність
+відхиляють. Також їх використовують для порівняння параметрів двох
+різних сукупностей.
+
+\paragraph{10. Які методи можна використовувати для визначення обсягу
+вибірки для отримання точних статистичних
+оцінок?}\label{ux44fux43aux456-ux43cux435ux442ux43eux434ux438-ux43cux43eux436ux43dux430-ux432ux438ux43aux43eux440ux438ux441ux442ux43eux432ux443ux432ux430ux442ux438-ux434ux43bux44f-ux432ux438ux437ux43dux430ux447ux435ux43dux43dux44f-ux43eux431ux441ux44fux433ux443-ux432ux438ux431ux456ux440ux43aux438-ux434ux43bux44f-ux43eux442ux440ux438ux43cux430ux43dux43dux44f-ux442ux43eux447ux43dux438ux445-ux441ux442ux430ux442ux438ux441ux442ux438ux447ux43dux438ux445-ux43eux446ux456ux43dux43eux43a}
+
+Обсяг вибірки розраховується на основі трьох параметрів: 1.
+\textbf{Бажана точність} (максимально допустима похибка). 2.
+\textbf{Необхідна надійність} (наприклад, 95\%). 3. \textbf{Очікувана
+варіативність даних} (оцінка дисперсії з попередніх досліджень або
+пілотної вибірки). Існують спеціальні формули для розрахунку \(n\) для
+середнього значення та для частки.
+
+    \subsubsection{Висновок}\label{ux432ux438ux441ux43dux43eux432ux43eux43a}
+
+Аналіз вибірки \(X =\) показав, що дані мають значний розкид
+(\(s \approx 2.915\)) та правосторонню асиметрію
+(\(\tilde{A}_s \approx 1.817\)), спричинену екстремальним значенням 10.
+Середнє значення (\(\bar{x}=5\)) виявилося більшим за медіану
+(\(Me=4\)). Незважаючи на відхилення форми розподілу від нормальної, для
+такого малого об'єму вибірки ці відхилення не є статистично значущими.
+
+    
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
